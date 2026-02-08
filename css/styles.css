@@ -1,0 +1,522 @@
+/* ========================================
+   0. CSS Custom Properties
+   ======================================== */
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-nav: rgba(13, 17, 23, 0.85);
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-heading: #ffffff;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --node-color: rgba(88, 166, 255, 0.6);
+  --edge-color: rgba(88, 166, 255, 0.12);
+  --border: rgba(48, 54, 61, 0.6);
+  --nav-height: 60px;
+  --content-max-width: 800px;
+}
+
+/* ========================================
+   1. Reset / Base
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 10px);
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+ul {
+  list-style: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   2. Canvas Background
+   ======================================== */
+#network-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ========================================
+   3. Navigation
+   ======================================== */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background: transparent;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+#navbar.nav--scrolled {
+  background: var(--bg-nav);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom-color: var(--border);
+}
+
+.nav-logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: -1px;
+  transition: color 0.3s ease;
+}
+
+.nav-logo:hover {
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links__item {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links__item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-links__item:hover {
+  color: var(--text-heading);
+}
+
+.nav-links__item:hover::after {
+  width: 100%;
+}
+
+.nav-links__item--active {
+  color: var(--accent);
+}
+
+.nav-links__item--active::after {
+  width: 100%;
+}
+
+.nav-links__item--muted {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.nav-links__item--muted:hover {
+  color: var(--text-secondary);
+}
+
+.nav-links__item--muted::after {
+  display: none;
+}
+
+.nav-links__badge {
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+/* Hamburger menu button */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+}
+
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--text-primary);
+  transition: transform 0.3s ease, top 0.3s ease;
+}
+
+.hamburger::before {
+  top: -7px;
+}
+
+.hamburger::after {
+  top: 7px;
+}
+
+/* Hamburger → X animation */
+.nav-open .hamburger {
+  background: transparent;
+}
+
+.nav-open .hamburger::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.nav-open .hamburger::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* ========================================
+   4. Hero Section
+   ======================================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.hero__content {
+  z-index: 1;
+}
+
+.hero__title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero__name {
+  color: var(--accent);
+}
+
+.hero__subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  color: var(--text-secondary);
+  min-height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__cursor {
+  font-weight: 100;
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Scroll-down indicator */
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.hero__chevron::after {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid var(--text-secondary);
+  border-bottom: 2px solid var(--text-secondary);
+  transform: rotate(45deg);
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* ========================================
+   5. About Section
+   ======================================== */
+.about {
+  padding: 6rem 2rem;
+  scroll-margin-top: calc(var(--nav-height) + 10px);
+}
+
+.about__container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.about__heading {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 2rem;
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.about__text p {
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.about__links {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.about__link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.about__link:hover {
+  background-color: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.about__image-wrapper {
+  position: relative;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 2px solid var(--border);
+}
+
+.about__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* ========================================
+   6. Thesis Section
+   ======================================== */
+.thesis {
+  padding: 6rem 2rem;
+  background: var(--bg-secondary);
+  text-align: center;
+  scroll-margin-top: calc(var(--nav-height) + 10px);
+}
+
+.thesis__container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.thesis__heading {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 2rem;
+}
+
+.thesis__message {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   7. Footer
+   ======================================== */
+.footer {
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.footer__text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   8. Responsive — Tablet & Mobile
+   ======================================== */
+@media (max-width: 768px) {
+  /* Navigation becomes hamburger menu */
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    background: var(--bg-primary);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+  }
+
+  .nav-open .nav-links {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-links__item {
+    font-size: 1.2rem;
+  }
+
+  /* About section stacks */
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about__image-wrapper {
+    order: -1;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 0 1.5rem;
+  }
+
+  .about {
+    padding: 4rem 1.5rem;
+  }
+
+  .thesis {
+    padding: 4rem 1.5rem;
+  }
+}
+
+/* ========================================
+   9. Accessibility — Reduced Motion
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero__cursor {
+    animation: none;
+    opacity: 1;
+  }
+
+  .hero__scroll-indicator {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

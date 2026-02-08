@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antonio Murillo | Software Engineer</title>
+  <meta name="description" content="Personal portfolio of Antonio Murillo, Software Engineer.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body id="top">
+
+  <!-- Network graph background canvas -->
+  <canvas id="network-bg" aria-hidden="true"></canvas>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#top" class="nav-logo" aria-label="Scroll to top">&lt;/&gt;</a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#about" class="nav-links__item">About</a></li>
+      <li><a href="https://github.com/murisevi" target="_blank" rel="noopener noreferrer" class="nav-links__item">Github</a></li>
+      <li><a href="https://www.linkedin.com/in/antoniomurillosevillano/" target="_blank" rel="noopener noreferrer" class="nav-links__item">Linkedin</a></li>
+      <li><a href="assets\ANTONIO MURILLO - Software Engineer Resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-links__item">CV</a></li>
+      <li>
+        <span class="nav-links__item nav-links__item--muted">
+          Bachelor Thesis <span class="nav-links__badge">(coming soon)</span>
+        </span>
+      </li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Hi, I'm <span class="hero__name">Antonio Murillo</span></h1>
+        <div class="hero__subtitle" aria-live="polite">
+          <span class="hero__typed"></span><span class="hero__cursor">|</span>
+        </div>
+      </div>
+      <div class="hero__scroll-indicator" aria-hidden="true">
+        <span class="hero__chevron"></span>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="about__container">
+        <h2 class="about__heading">About</h2>
+        <div class="about__grid">
+          <div class="about__text">
+            <p>
+              I'm a Software Engineer graduated by the University of Sevilla who enjoys 
+              building things that work well and help people. I like solving puzzles, 
+              learning through new and challenging scenarios, and working with others 
+              to turn ideas into reality.
+            </p>
+            <p>
+              When I'm not coding, you'll find me exploring new technologies or playing chess.
+              Find me on <b> Github</b>, <b> Linkedin</b> or <b> Chess.com</b> 
+            </p>
+            <div class="about__links">
+              <a href="https://github.com/murisevi" target="_blank" rel="noopener noreferrer" class="about__link">
+                GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/antoniomurillosevillano/" target="_blank" rel="noopener noreferrer" class="about__link">
+                Linkedin
+              </a>
+              <a href="https://www.chess.com/member/murisevi" target="_blank" rel="noopener noreferrer" class="about__link">
+                Chess.com
+              </a>
+            </div>
+          </div>
+          <div class="about__image-wrapper">
+            <img
+              src="assets/headshot.jpeg"
+              alt="Photo of Antonio Murillo"
+              class="about__image"
+              loading="lazy"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__text">&copy; 2026 Antonio Murillo</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/network-bg.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
